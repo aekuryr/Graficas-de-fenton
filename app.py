@@ -21,7 +21,7 @@ else:
     sheet_name = "Hoja 2"  # Hoja con datos para niñas
 
 # 📌 Cargar el archivo Excel con coordenadas específicas para cada género
-file_path = "coordenadas_fenton.xlsx"
+file_path = "Coordenadas fenton pixeles.xlsx"
 df = pd.read_excel(file_path, sheet_name=sheet_name)
 
 # 📌 Extraer datos de referencia en píxeles específicos para el género seleccionado
