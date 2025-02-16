@@ -15,10 +15,10 @@ genero = st.radio("Selecciona el género", ["Niño", "Niña"])
 # 📌 Cargar la imagen y la hoja de Excel correspondientes
 if genero == "Niño":
     image_path = "graficavaron.png"
-    sheet_name = "Hoja 1"  # Hoja con datos para niños
+    sheet_name = "Niño"  # Hoja con datos para niños
 else:
     image_path = "graficanina.png"
-    sheet_name = "Hoja 2"  # Hoja con datos para niñas
+    sheet_name = "Niña"  # Hoja con datos para niñas
 
 # 📌 Cargar el archivo Excel con coordenadas específicas para cada género
 file_path = "Coordenadas fenton pixeles.xlsx"
