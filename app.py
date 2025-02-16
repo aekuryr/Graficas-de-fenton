@@ -9,12 +9,25 @@ from scipy.interpolate import interp1d
 from PIL import Image
 
 # 📌 Configuración de la página en Streamlit
-st.set_page_config(page_title="Gráfica de Fenton - Niños", layout="centered")
+st.set_page_config(page_title="Gráfica de Fenton", layout="centered")
+# 🔹 Selector de género
+genero = st.radio("Selecciona el género", ["Niño", "Niña"])
 
-# 📌 Cargar la imagen precargada en el entorno
-image_path = "graficavaron.png"  # Ruta de la imagen guardada en el entorno
+# 🔹 Cargar la imagen correspondiente
+if genero == "Niño":
+    image_path = "graficavaron.png"
+    sheet_name = "Hoja 1"  # Hoja de datos para niños
+else:
+    image_path = "grafica_nina.png"
+    sheet_name = "Hoja 2"  # Hoja de datos para niñas
+
+# Cargar y mostrar la imagen
 image = cv2.imread(image_path)
-image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+if image is not None:
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    st.image(image, caption=f"Gráfica de Fenton - {genero}", use_column_width=True)
+else:
+    st.error(f"No se pudo cargar la imagen {image_path}. Verifica que el archivo esté en el repositorio.")
 
 # 📌 Cargar el archivo Excel con coordenadas precargadas
 file_path = "coordenadas_fenton.xlsx"  # Ruta del archivo en el entorno
