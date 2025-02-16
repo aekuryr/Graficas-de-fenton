@@ -18,9 +18,18 @@ if genero == "Niño":
 else:
     image_path = "grafica_nina.png"
 
+# Cargar la imagen
+image = cv2.imread(image_path)
+
+if image is not None:
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    st.image(image, caption=f"Gráfica de Fenton - {genero}", use_column_width=True)
+else:
+    st.error(f"No se pudo cargar la imagen {image_path}. Verifica que el archivo esté en el repositorio.")
+
 # 📌 Cargar el archivo Excel con coordenadas precargadas
-file_path = "coordenadas_fenton.xlsx"
-df = pd.read_excel(file_path, sheet_name="Hoja 1")  # Datos son los mismos para ambos géneros
+file_path = "coordenadas_fenton.xlsx"  # Ruta del archivo en el entorno
+df = pd.read_excel(file_path, sheet_name="Hoja 1")  # La hoja es la misma para ambos géneros
 
 # 📌 Extraer datos de referencia en píxeles
 edad_gestacional = df["Semanas"].values
@@ -60,13 +69,6 @@ peso_coord = obtener_coordenadas(edad, peso, peso_real, peso_y_coords)
 talla_coord = obtener_coordenadas(edad, talla, talla_real, talla_y_coords)
 pc_coord = obtener_coordenadas(edad, pc, pc_real, pc_y_coords)
 
-# 📌 Cargar la imagen y mostrarla en la parte correcta
-image = cv2.imread(image_path)
-if image is not None:
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-else:
-    st.error(f"No se pudo cargar la imagen {image_path}. Verifica que el archivo esté en el repositorio.")
-
 # 📌 Mostrar la imagen con los puntos ploteados
 fig, ax = plt.subplots(figsize=(8, 10))
 ax.imshow(image)
@@ -84,6 +86,3 @@ if pc_coord:
 
 ax.axis('off')
 st.pyplot(fig)
-
-# 📌 Mostrar la imagen en la interfaz de Streamlit (sin que aparezca al inicio)
-st.image(image, caption=f"Gráfica de Fenton - {genero}", use_container_width=True)
