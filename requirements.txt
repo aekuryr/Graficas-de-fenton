@@ -4,4 +4,3 @@ matplotlib
 opencv-python
 scipy
 pillow
-libgl1-mesa-glx
