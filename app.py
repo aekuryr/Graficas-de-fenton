@@ -19,7 +19,7 @@ if genero == "Niño":
     sheet_name = "Hoja 1"  # Hoja de datos para niños
 else:
     image_path = "grafica_nina.png"
-    sheet_name = "Hoja 2"  # Hoja de datos para niñas
+    sheet_name = "Hoja 1"  # Hoja de datos para niñas
 
 # Cargar y mostrar la imagen
 image = cv2.imread(image_path)
