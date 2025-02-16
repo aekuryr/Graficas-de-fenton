@@ -86,6 +86,3 @@ if pc_coord:
 
 ax.axis('off')
 st.pyplot(fig)
-
-# 📌 Mostrar la imagen en la interfaz de Streamlit
-st.image(image, caption=f"Gráfica de Fenton - {genero}", use_container_width=True)
