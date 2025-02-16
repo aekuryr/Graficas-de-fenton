@@ -12,7 +12,7 @@ from PIL import Image
 st.set_page_config(page_title="Gráfica de Fenton", layout="centered")
 
 # 📌 Cargar la imagen precargada en el entorno
-image_path = "image.png"  # Ruta de la imagen guardada en el entorno
+image_path = "graficavaron.png"  # Ruta de la imagen guardada en el entorno
 image = cv2.imread(image_path)
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
