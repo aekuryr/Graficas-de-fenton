@@ -28,7 +28,7 @@ else:
     st.error(f"No se pudo cargar la imagen {image_path}. Verifica que el archivo esté en el repositorio.")
 
 # 📌 Cargar el archivo Excel con coordenadas precargadas
-file_path = "coordenadas_fenton.xlsx"  # Ruta del archivo en el entorno
+file_path = "Coordenadas fenton pixeles.xlsx"  # Ruta del archivo en el entorno
 df = pd.read_excel(file_path, sheet_name="Hoja 1")  # La hoja es la misma para ambos géneros
 
 # 📌 Extraer datos de referencia en píxeles
