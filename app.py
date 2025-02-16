@@ -20,7 +20,6 @@ image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 image = cv2.imread(image_path)
 if image is not None:
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    st.image(image, caption=f"Gráfica de Fenton - {genero}", use_column_width=True)
 else:
     st.error(f"No se pudo cargar la imagen {image_path}. Verifica que el archivo esté en el repositorio.")
 
