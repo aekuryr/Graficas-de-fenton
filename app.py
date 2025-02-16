@@ -9,7 +9,7 @@ from scipy.interpolate import interp1d
 from PIL import Image
 
 # 📌 Configuración de la página en Streamlit
-st.set_page_config(page_title="Gráfica de Fenton", layout="centered")
+st.set_page_config(page_title="Gráfica de Fenton - Niños", layout="centered")
 
 # 📌 Cargar la imagen precargada en el entorno
 image_path = "graficavaron.png"  # Ruta de la imagen guardada en el entorno
