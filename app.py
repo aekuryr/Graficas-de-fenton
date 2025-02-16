@@ -16,7 +16,7 @@ genero = st.radio("Selecciona el género", ["Niño", "Niña"])
 if genero == "Niño":
     image_path = "graficavaron.png"
 else:
-    image_path = "grafica_nina.png"
+    image_path = "graficanina.png"
 
 # Cargar la imagen
 image = cv2.imread(image_path)
