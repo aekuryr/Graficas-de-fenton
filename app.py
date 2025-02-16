@@ -1,5 +1,3 @@
-# Graficas de fenton
-
 import streamlit as st
 import cv2
 import numpy as np
@@ -11,21 +9,27 @@ from PIL import Image
 # 📌 Configuración de la página en Streamlit
 st.set_page_config(page_title="Gráfica de Fenton", layout="centered")
 
-# 📌 Cargar la imagen precargada en el entorno
-image_path = "graficavaron.png"  # Ruta de la imagen guardada en el entorno
-image = cv2.imread(image_path)
-image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+# 📌 Selector de género
+genero = st.radio("Selecciona el género", ["Niño", "Niña"])
 
-# Cargar y mostrar la imagen
+# 📌 Cargar la imagen correspondiente
+if genero == "Niño":
+    image_path = "graficavaron.png"
+else:
+    image_path = "grafica_nina.png"
+
+# Cargar la imagen
 image = cv2.imread(image_path)
+
 if image is not None:
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    st.image(image, caption=f"Gráfica de Fenton - {genero}", use_column_width=True)
 else:
     st.error(f"No se pudo cargar la imagen {image_path}. Verifica que el archivo esté en el repositorio.")
 
 # 📌 Cargar el archivo Excel con coordenadas precargadas
 file_path = "coordenadas_fenton.xlsx"  # Ruta del archivo en el entorno
-df = pd.read_excel(file_path, sheet_name="Hoja 1")
+df = pd.read_excel(file_path, sheet_name="Hoja 1")  # La hoja es la misma para ambos géneros
 
 # 📌 Extraer datos de referencia en píxeles
 edad_gestacional = df["Semanas"].values
