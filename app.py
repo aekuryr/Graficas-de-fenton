@@ -10,7 +10,7 @@ from PIL import Image
 st.set_page_config(page_title="Gráfica de Fenton", layout="centered")
 
 # 📌 Selector de género
-genero = st.radio("Selecciona el género", ["Niño", "Niña"])
+genero = st.radio("Selecciona el sexo", ["Niño", "Niña"])
 
 # 📌 Cargar la imagen y la hoja de Excel correspondientes
 if genero == "Niño":
