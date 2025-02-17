@@ -55,7 +55,7 @@ st.title("Gráfica de Fenton - Crecimiento Neonatal")
 edad = st.number_input("Edad gestacional (semanas)", min_value=22, max_value=48, value=40, step=1)
 peso = st.number_input("Peso (kg)", min_value=0.5, max_value=8.0, value=3.5, step=0.1)
 talla = st.number_input("Talla (cm)", min_value=30.0, max_value=60.0, value=51.0, step=0.1)
-pc = st.number_input("Perímetro cefálico (cm)", min_value=20.0, max_value=55.0, value=35,0, step=0.1)
+pc = st.number_input("Perímetro cefálico (cm)", min_value=20.0, max_value=55.0, value=35.0, step=0.1)
 
 # 📌 Calcular coordenadas según los datos específicos del género seleccionado
 peso_coord = obtener_coordenadas(edad, peso, peso_real, peso_y_coords)
