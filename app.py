@@ -126,11 +126,17 @@ def obtener_plots(directorio="historial_plots"):
     """Obtiene y ordena los archivos de ploteo guardados en el directorio."""
     ruta_patron = os.path.join(directorio, "plot_*.png")
     imagenes = glob.glob(ruta_patron)
-    # Ordena la lista usando el timestamp presente en el nombre del archivo
-    imagenes.sort(key=lambda x: datetime.datetime.strptime(
-        os.path.basename(x).split('_')[-1].split('.')[0], 
-        "%Y%m%d_%H%M%S"
-    ))
+    
+    def extraer_fecha(archivo):
+        """Toma el nombre de archivo y devuelve un objeto datetime a partir de las dos últimas partes (fecha y hora)."""
+        nombre_sin_ext = os.path.splitext(os.path.basename(archivo))[0]  # p.ej. 'plot_John_20250321_154500'
+        partes = nombre_sin_ext.split('_')                               # ['plot', 'John', '20250321', '154500']
+        # Las dos últimas partes corresponden a la fecha y hora en formato YYYYMMDD_HHMMSS
+        fecha_str = '_'.join(partes[-2:])                                # '20250321_154500'
+        return datetime.datetime.strptime(fecha_str, "%Y%m%d_%H%M%S")
+    
+    # Ordena la lista usando la función extraer_fecha
+    imagenes.sort(key=lambda x: extraer_fecha(x))
     return imagenes
 
 plots_guardados = obtener_plots()
