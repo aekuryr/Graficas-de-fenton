@@ -5,6 +5,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 from PIL import Image
+import os
+import datetime
+import glob
 
 # 📌 Configuración de la página en Streamlit
 st.set_page_config(page_title="Gráfica de Fenton", layout="centered")
@@ -36,7 +39,7 @@ talla_y_coords = df["Talla eje Y"].values
 
 # 📌 Función para interpolar coordenadas según el género seleccionado
 def obtener_coordenadas(edad, valor, valores_reales, valores_y):
-    """ Interpola coordenadas en la imagen para un valor dado. """
+    """Interpola coordenadas en la imagen para un valor dado."""
     if valor < min(valores_reales) or valor > max(valores_reales):
         return None
     
@@ -69,20 +72,86 @@ if image is not None:
 else:
     st.error(f"No se pudo cargar la imagen {image_path}. Verifica que el archivo esté en el repositorio.")
 
-# 📌 Mostrar la imagen con los puntos ploteados
+# 📌 Crear la figura para el ploteo
 fig, ax = plt.subplots(figsize=(8, 10))
 ax.imshow(image)
 
-# Ajustar tamaño de los puntos
+# 📌 Ajustar tamaño de los puntos
 marker_size = 50  
 
 # Ploteo de los puntos en la imagen seleccionada
 if peso_coord:
-    ax.scatter(*peso_coord, color='red', s=marker_size)
+    ax.scatter(*peso_coord, color='red', s=marker_size, label="Peso")
 if talla_coord:
-    ax.scatter(*talla_coord, color='blue', s=marker_size)
+    ax.scatter(*talla_coord, color='blue', s=marker_size, label="Talla")
 if pc_coord:
-    ax.scatter(*pc_coord, color='green', s=marker_size)
+    ax.scatter(*pc_coord, color='green', s=marker_size, label="Perímetro Cefálico")
 
 ax.axis('off')
+ax.legend()
 st.pyplot(fig)
+
+# -----------------------------------------------------------------------------
+# Sección para guardar el ploteo actual con timestamp
+if st.button("Guardar ploteo actual"):
+    # Directorio para guardar el historial de ploteos
+    save_dir = "historial_plots"
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    
+    # Generar un nombre de archivo con timestamp
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"plot_{timestamp}.png"
+    filepath = os.path.join(save_dir, filename)
+    
+    # Guardar el gráfico actual
+    fig.savefig(filepath)
+    st.success(f"Ploteo guardado: {filepath}")
+
+# -----------------------------------------------------------------------------
+# Sección para visualizar el historial de ploteos (línea de tiempo)
+st.header("Historial de Ploteos")
+
+def obtener_plots(directorio="historial_plots"):
+    """Obtiene y ordena los archivos de ploteo guardados en el directorio."""
+    ruta_patron = os.path.join(directorio, "plot_*.png")
+    imagenes = glob.glob(ruta_patron)
+    imagenes.sort(key=lambda x: datetime.datetime.strptime(os.path.basename(x)[5:20], "%Y%m%d_%H%M%S"))
+    return imagenes
+
+plots_guardados = obtener_plots()
+
+if plots_guardados:
+    opciones = [os.path.basename(img) for img in plots_guardados]
+    seleccion = st.selectbox("Selecciona un ploteo para visualizar", opciones)
+    ruta_seleccionada = os.path.join("historial_plots", seleccion)
+    st.image(ruta_seleccionada, caption=seleccion, use_column_width=True)
+else:
+    st.write("No hay ploteos guardados.")
+
+# Sección para guardar el ploteo actual con expediente
+st.header("Guardar Ploteo Actual")
+
+# Campo para ingresar el número o nombre de expediente
+expediente = st.text_input("Ingresa el número o nombre de expediente:")
+
+if st.button("Guardar ploteo actual"):
+    # Directorio para guardar el historial de ploteos
+    save_dir = "historial_plots"
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+    
+    # Generar un timestamp
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # Verifica si se ha ingresado un expediente y lo incluye en el nombre del archivo
+    if expediente.strip():
+        filename = f"plot_{expediente}_{timestamp}.png"
+    else:
+        filename = f"plot_{timestamp}.png"
+    
+    filepath = os.path.join(save_dir, filename)
+    
+    # Guardar el gráfico actual
+    fig.savefig(filepath)
+    st.success(f"Ploteo guardado: {filepath}")
